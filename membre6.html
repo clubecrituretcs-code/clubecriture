@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salma — Club d'Écriture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+  <style>
+    
+    :root {
+      --bg: #f7f3ec;
+      --paper: #faf8f4;
+      --ink: #2a2118;
+      --ink-soft: #5a4e3e;
+      --line: rgba(124,92,58,0.18);
+      --shadow: rgba(42,33,24,0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      background-image: repeating-linear-gradient(transparent, transparent 27px, var(--line) 27px, var(--line) 28px);
+      font-family: 'Source Serif 4', serif;
+      color: var(--ink);
+    }
+
+    header {
+      background: #faf8f4;
+      border-bottom: 2px solid #5a3a7c;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 16px var(--shadow);
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: #5a3a7c;
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 0.65; }
+    .profile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+    }
+    .avatar {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e8dfd0, #c8b49a);
+      border: 3px solid #5a3a7c;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    .profile-info h1 {
+      font-family: 'Lora', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-align: left;
+    }
+    .profile-info .genre-badge {
+      display: inline-block;
+      background: #5a3a7c;
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 0.2em 0.8em;
+      border-radius: 3px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+    .texte-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-left: 4px solid #5a3a7c;
+      padding: 2rem 2.2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px var(--shadow);
+      border-radius: 0 4px 4px 0;
+      animation: fadeIn 0.5s ease both;
+    }
+    .texte-card:nth-child(2) { animation-delay: 0.1s; }
+    .texte-card h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.35rem;
+      margin-bottom: 0.4rem;
+      color: var(--ink);
+    }
+    .texte-card .meta {
+      font-size: 0.78rem;
+      color: #5a3a7c;
+      letter-spacing: 0.1em;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .texte-card .intro {
+      font-style: italic;
+      color: var(--ink-soft);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .texte-card .contenu {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--ink);
+      white-space: pre-line;
+    }
+    .download-btn {
+      display: inline-block;
+      margin-top: 1.2rem;
+      padding: 0.4em 1.2em;
+      border: 1px solid #5a3a7c;
+      color: #5a3a7c;
+      font-family: 'Lora', serif;
+      font-size: 0.82rem;
+      text-decoration: none;
+      border-radius: 3px;
+      letter-spacing: 0.08em;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      background: transparent;
+    }
+    .download-btn:hover { background: #5a3a7c; color: #fff; }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-size: 0.85rem;
+      font-style: italic;
+      background: var(--paper);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  
+    /* COMMENTAIRES */
+    .comments-section {
+      margin-top: 3rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-top: 3px solid var(--accent, #7c5c3a);
+      padding: 2rem 2.2rem;
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 2px 10px var(--shadow);
+    }
+    .comments-section h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--ink);
+    }
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .comment-form input,
+    .comment-form textarea {
+      background: var(--bg, #f7f3ec);
+      border: 1px solid var(--line);
+      padding: 0.7em 1em;
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      outline: none;
+      border-radius: 3px;
+      transition: border-color 0.3s;
+    }
+    .comment-form textarea { min-height: 90px; resize: vertical; }
+    .comment-submit {
+      align-self: flex-start;
+      padding: 0.5em 1.8em;
+      background: var(--accent, #7c5c3a);
+      color: #fff;
+      font-family: 'Lora', serif;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .comment-submit:hover { opacity: 0.85; }
+    .msg-success { color: green; font-size: 0.85rem; font-style: italic; display: none; margin-top: 0.5rem; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="back-link">⬅ Retour au club</a>
+    <div class="profile">
+      <div class="avatar">🌙</div>
+      <div class="profile-info">
+        <h1>Salma</h1>
+        <span class="genre-badge">Fantasy</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="texte-card">
+      <h2>Les Gardiens de l'Encre</h2>
+      <p class="meta">📅 Publié le 2026-02-12 &nbsp;·&nbsp; Fantasy</p>
+      <p class="intro">Prologue d'un roman fantasy où les mots ont un pouvoir magique.</p>
+      <div class="contenu">Au commencement, avant même les dieux, il y avait le Mot.
+Pas un son. Pas une voix. Juste un signe tracé dans la nuit noire par une main dont personne ne connaît le nom.
+Ce signe, les Gardiens le cherchent depuis dix mille ans. Car celui qui le retrouvera pourra réécrire le monde.</div>
+      <button class="download-btn" onclick="downloadText(`Au commencement, avant même les dieux, il y avait le Mot.
+Pas un son. Pas une voix. Juste un signe tracé dans la nuit noire par une main dont personne ne connaît le nom.
+Ce signe, les Gardiens le cherchent depuis dix mille ans. Car celui qui le retrouvera pourra réécrire le monde.`, `Salma-Les Gardiens de l'Encre.txt`)">⬇ Télécharger .txt</button>
+    </div>
+
+    <div class="texte-card">
+      <h2>La Fille qui Lisait les Étoiles</h2>
+      <p class="meta">📅 Publié le 2026-01-18 &nbsp;·&nbsp; Fantasy</p>
+      <div class="contenu">Les étoiles sont des lettres, lui avait dit sa grand-mère. Il suffit de connaître l'alphabet du ciel pour lire l'avenir. Salma avait sept ans. Elle avait commencé à étudier.</div>
+      <button class="download-btn" onclick="downloadText(`Les étoiles sont des lettres, lui avait dit sa grand-mère. Il suffit de connaître l'alphabet du ciel pour lire l'avenir. Salma avait sept ans. Elle avait commencé à étudier.`, `Salma-La Fille qui Lisait les Étoiles.txt`)">⬇ Télécharger .txt</button>
+    </div>
+
+  
+    <!-- COMMENTAIRES -->
+    <div class="comments-section">
+      <h3>✉️ Laisser un commentaire</h3>
+      <div class="comment-form">
+        <input type="text" id="c-nom" placeholder="Votre nom..." maxlength="50">
+        <textarea id="c-msg" placeholder="Votre commentaire..."></textarea>
+        <button class="comment-submit" onclick="submitComment()">Envoyer</button>
+        <span class="msg-success" id="msg-ok">✅ Commentaire envoyé !</span>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    La Belle Plume · Page de Salma · 2026
+  </footer>
+
+  <script>
+    function downloadText(content, filename) {
+      const blob = new Blob([content], {type: 'text/plain'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+    }
+  </script>
+
+
+  <script>
+    const SUPABASE_URL = 'https://mazqdmfjgkjwunibypiy.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1henFkbWZqZ2tqd3VuaWJ5cGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzMzMjksImV4cCI6MjA4NzgwOTMyOX0.E6mQOBDOzbpHEOQZpE2nr658iPLNwz3lsn2DQFcaS3Y';
+    const PAGE_ID = 'membre6';
+
+    async function submitComment() {
+      const nom = document.getElementById('c-nom').value.trim();
+      const msg = document.getElementById('c-msg').value.trim();
+      if (!nom || !msg) { alert('Veuillez remplir tous les champs !'); return; }
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/commentaires`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ page: PAGE_ID, nom, message: msg })
+      });
+      if (res.ok) {
+        document.getElementById('c-nom').value = '';
+        document.getElementById('c-msg').value = '';
+        document.getElementById('msg-ok').style.display = 'block';
+        setTimeout(() => document.getElementById('msg-ok').style.display = 'none', 3000);
+      }
+    }
+  </script>
+
+</body>
+</html>
