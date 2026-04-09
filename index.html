@@ -311,6 +311,74 @@
     .comment-submit:hover { background: var(--ink); }
     .msg-success { color: green; font-size: 0.85rem; font-style: italic; display: none; margin-top: 0.5rem; }
 
+  
+    /* PRESIDENT SECTION */
+    .president-section {
+      margin-bottom: 2rem;
+    }
+    .president-section h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .president-section h2::before,
+    .president-section h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--accent-light);
+      opacity: 0.5;
+    }
+    .president-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      border-top: 3px solid var(--accent);
+      padding: 1.8rem 2rem;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      box-shadow: 0 2px 12px var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .president-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+    .president-card .p-avatar {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e2d5c3, #c8b49a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      border: 3px solid var(--accent);
+      flex-shrink: 0;
+    }
+    .president-card .p-info { text-align: left; }
+    .president-card .p-nom {
+      font-family: 'Lora', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .president-card .p-role {
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-style: italic;
+    }
+
   </style>
 </head>
 <body>
@@ -336,15 +404,27 @@
       <a href="membre1.html" class="btn-link">Lire le roman</a>
     </div>
 
+    <!-- RESPONSABLE -->
+    <div class="president-section">
+      <h2>L'encadrant du club</h2>
+      <a href="membre1.html" class="president-card">
+        <div class="p-avatar">✍</div>
+        <div class="p-info">
+          <div class="p-nom">Mr ELAMRANI</div>
+          <div class="p-role">Un Prof Passionné. Inspirant. Exigeant.</div>
+        </div>
+      </a>
+    </div>
+
     <!-- Membres -->
     <div class="membres-section">
       <h2>Membres du club</h2>
       <div class="membres-grid">
         <a href="membre1.html" class="membre-card">
-          <div class="avatar">✍</div>
-          <div class="nom">Mr ELAMRANI</div>
-          <!--<div class="genre">Poésie</div>-->
+          <div class="avatar">🌿</div>
+          <div class="nom">Aya</div>
         </a>
+
         <a href="membre2.html" class="membre-card">
           <div class="avatar">📖</div>
           <div class="nom">imane</div>
