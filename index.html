@@ -334,6 +334,20 @@
     }
     .msg-error { color: #c0392b; font-size: 0.85rem; font-style: italic; display: none; margin-top: 0.3rem; }
 
+    .cancel-photo {
+      display: none;
+      background: none;
+      border: none;
+      color: #c0392b;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: 'Source Serif 4', serif;
+      margin-top: 0.3rem;
+      padding: 0;
+    }
+    .cancel-photo:hover { text-decoration: underline; }
+
+
 
   
     /* PRESIDENT SECTION */
@@ -496,6 +510,7 @@
         <label class="file-label" for="c-photo">📎 Joindre une photo (optionnel)</label>
         <input type="file" id="c-photo" accept="image/*" onchange="previewPhoto(this)">
         <img id="preview-img" class="preview-img" alt="preview">
+        <button class="cancel-photo" id="cancel-photo" onclick="cancelPhoto()">❌ Annuler la photo</button>
         <button class="comment-submit" onclick="submitComment()">Envoyer</button>
         <span class="msg-success" id="msg-ok">✅ Commentaire envoyé !</span>
         <span class="msg-error" id="msg-err">❌ Erreur lors de l'envoi.</span>
@@ -514,14 +529,23 @@
     const SB_URL = 'https://mazqdmfjgkjwunibypiy.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1henFkbWZqZ2tqd3VuaWJ5cGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzMzMjksImV4cCI6MjA4NzgwOTMyOX0.E6mQOBDOzbpHEOQZpE2nr658iPLNwz3lsn2DQFcaS3Y';
 
+    function cancelPhoto() {
+      const input = document.getElementById('c-photo');
+      input.value = '';
+      document.getElementById('preview-img').style.display = 'none';
+      document.getElementById('cancel-photo').style.display = 'none';
+    }
+
     function previewPhoto(input) {
       const file = input.files[0];
       const preview = document.getElementById('preview-img');
       if (file) {
         preview.src = URL.createObjectURL(file);
         preview.style.display = 'block';
+        document.getElementById('cancel-photo').style.display = 'inline-block';
       } else {
         preview.style.display = 'none';
+        document.getElementById('cancel-photo').style.display = 'none';
       }
     }
 
@@ -591,6 +615,7 @@
         document.getElementById('c-msg').value = '';
         fileInput.value = '';
         document.getElementById('preview-img').style.display = 'none';
+        document.getElementById('cancel-photo').style.display = 'none';
         document.getElementById('msg-ok').style.display = 'block';
         setTimeout(() => document.getElementById('msg-ok').style.display = 'none', 3000);
       } else {
