@@ -311,6 +311,30 @@
     .comment-submit:hover { background: var(--ink); }
     .msg-success { color: green; font-size: 0.85rem; font-style: italic; display: none; margin-top: 0.5rem; }
 
+    .comment-form .file-label {
+      display: inline-block;
+      padding: 0.5em 1.2em;
+      border: 1px dashed var(--accent-light);
+      border-radius: 3px;
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: border-color 0.3s, color 0.3s;
+      font-family: 'Source Serif 4', serif;
+    }
+    .comment-form .file-label:hover { border-color: var(--accent); color: var(--accent); }
+    .comment-form input[type="file"] { display: none; }
+    .preview-img {
+      max-width: 180px;
+      max-height: 140px;
+      border-radius: 4px;
+      margin-top: 0.3rem;
+      display: none;
+      border: 1px solid var(--line);
+    }
+    .msg-error { color: #c0392b; font-size: 0.85rem; font-style: italic; display: none; margin-top: 0.3rem; }
+
+
   
     /* PRESIDENT SECTION */
     .president-section {
@@ -469,8 +493,12 @@
       <div class="comment-form">
         <input type="text" id="c-nom" placeholder="Votre nom..." maxlength="50">
         <textarea id="c-msg" placeholder="Votre commentaire..."></textarea>
+        <label class="file-label" for="c-photo">📎 Joindre une photo (optionnel)</label>
+        <input type="file" id="c-photo" accept="image/*" onchange="previewPhoto(this)">
+        <img id="preview-img" class="preview-img" alt="preview">
         <button class="comment-submit" onclick="submitComment()">Envoyer</button>
         <span class="msg-success" id="msg-ok">✅ Commentaire envoyé !</span>
+        <span class="msg-error" id="msg-err">❌ Erreur lors de l'envoi.</span>
       </div>
     </div>
 
@@ -483,25 +511,91 @@
 
 
   <script>
+    const SB_URL = 'https://mazqdmfjgkjwunibypiy.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1henFkbWZqZ2tqd3VuaWJ5cGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzMzMjksImV4cCI6MjA4NzgwOTMyOX0.E6mQOBDOzbpHEOQZpE2nr658iPLNwz3lsn2DQFcaS3Y';
+
+    function previewPhoto(input) {
+      const file = input.files[0];
+      const preview = document.getElementById('preview-img');
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
+    }
+
+    function sanitize(str) {
+      return str.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').trim();
+    }
+
+    async function uploadPhoto(file) {
+      const ext = file.name.split('.').pop();
+      const filename = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+      const res = await fetch(`${SB_URL}/storage/v1/object/photos/${filename}`, {
+        method: 'POST',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type': file.type,
+          'x-upsert': 'true'
+        },
+        body: file
+      });
+      if (!res.ok) return null;
+      return `${SB_URL}/storage/v1/object/public/photos/${filename}`;
+    }
+
     async function submitComment() {
       const nom = document.getElementById('c-nom').value.trim();
       const msg = document.getElementById('c-msg').value.trim();
+      const fileInput = document.getElementById('c-photo');
+      const file = fileInput.files[0];
+
       if (!nom || !msg) { alert('Veuillez remplir tous les champs !'); return; }
-      const res = await fetch('https://mazqdmfjgkjwunibypiy.supabase.co/rest/v1/commentaires', {
+      if (nom.length > 50)  { alert('Nom trop long !'); return; }
+      if (msg.length > 500) { alert('Message trop long !'); return; }
+      if (file && file.size > 5 * 1024 * 1024) { alert('Image trop grande ! (max 5MB)'); return; }
+
+      const btn = document.querySelector('.comment-submit');
+      btn.textContent = 'Envoi...';
+      btn.disabled = true;
+
+      let photo_url = null;
+      if (file) {
+        photo_url = await uploadPhoto(file);
+        if (!photo_url) {
+          document.getElementById('msg-err').style.display = 'block';
+          btn.textContent = 'Envoyer';
+          btn.disabled = false;
+          return;
+        }
+      }
+
+      const res = await fetch(`${SB_URL}/rest/v1/commentaires`, {
         method: 'POST',
         headers: {
-          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1henFkbWZqZ2tqd3VuaWJ5cGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzMzMjksImV4cCI6MjA4NzgwOTMyOX0.E6mQOBDOzbpHEOQZpE2nr658iPLNwz3lsn2DQFcaS3Y',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1henFkbWZqZ2tqd3VuaWJ5cGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzMzMjksImV4cCI6MjA4NzgwOTMyOX0.E6mQOBDOzbpHEOQZpE2nr658iPLNwz3lsn2DQFcaS3Y',
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
           'Content-Type': 'application/json',
           'Prefer': 'return=minimal'
         },
-        body: JSON.stringify({ page: 'index', nom, message: msg })
+        body: JSON.stringify({ page: 'index', nom: sanitize(nom), message: sanitize(msg), photo_url })
       });
+
+      btn.textContent = 'Envoyer';
+      btn.disabled = false;
+
       if (res.ok) {
         document.getElementById('c-nom').value = '';
         document.getElementById('c-msg').value = '';
+        fileInput.value = '';
+        document.getElementById('preview-img').style.display = 'none';
         document.getElementById('msg-ok').style.display = 'block';
         setTimeout(() => document.getElementById('msg-ok').style.display = 'none', 3000);
+      } else {
+        document.getElementById('msg-err').style.display = 'block';
+        setTimeout(() => document.getElementById('msg-err').style.display = 'none', 3000);
       }
     }
   </script>
