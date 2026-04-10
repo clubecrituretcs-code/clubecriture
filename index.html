@@ -566,7 +566,11 @@
         },
         body: file
       });
-      if (!res.ok) return null;
+      if (!res.ok) {
+        const err = await res.json();
+        alert('Erreur upload: ' + JSON.stringify(err));
+        return null;
+      }
       return `${SB_URL}/storage/v1/object/public/photos/${filename}`;
     }
 
